@@ -138,11 +138,11 @@ def menu_loop():
         except ValueError:
             print("\nPlease choose a valid option, or enter 'q' to quit.")
 
-menu = OrderedDict[(
+menu = OrderedDict([
     ("v", view_product),
     ("a", add_product),
     ("b", save_inventory),
-)]
+])
 
 if __name__ == "__main__":
     initialize()
