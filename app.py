@@ -70,7 +70,7 @@ def display(product):
     print("Last updated: {}".format(product.date_updated.date().strftime('%m/%d/%Y')))
 
 def view_product():
-    """View details of a single product."""
+    """View a single product's inventory"""
     while True:
         try:
             id = input("Enter the ID of the item you would like to view: ")
@@ -87,7 +87,7 @@ def view_product():
         clear()
 
 def add_product():
-    """Add a new product."""
+    """Add a new product to the database"""
     try:
         name = input("Please enter the name of the product:  ")
         price =  input("Please enter the price of the product:  ")
@@ -122,7 +122,7 @@ def add_product():
 
 
 def save_inventory():
-    """Make a backup of the entire contents."""
+    """Make a backup of the entire inventory"""
     dicts = [model_to_dict(item) for item in Product.select().order_by(Product.product_id)]
     with open("backup.csv", "a") as csvfile:
         fieldnames = ['product_id',
