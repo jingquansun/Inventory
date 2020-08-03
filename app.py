@@ -26,6 +26,23 @@ def initialize():
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def menu_loop():
+    choice = None
+    while choice != "q":
+        clear()
+        print("Enter 'q' to quit.\n")
+        for key, value in menu.items():
+            print("{}) {}".format(key, value.__doc__))
+        try:
+            choice = input("\nAction: ").lower().strip()
+            if choice.lower() != "q":
+                clear()
+                raise ValueError("Please choose a valid option")
+            elif choice in menu:
+                menu[choice]()
+        except ValueError:
+            print("\nPlease choose a valid option, or enter 'q' to quit.")
+
 def add_csv():
     with open('inventory.csv', newline='') as file:
         reader = csv.DictReader(file, delimiter=',')
@@ -121,30 +138,13 @@ def save_inventory():
         writer.writerows(products.tuples())
         print("\nInventory is successfully backed up!\n")
 
-def menu_loop():
-    choice = None
-    while choice != "q":
-        clear()
-        print("Enter 'q' to quit.\n")
-        for key, value in menu.item():
-            print("{}) {}".format(key, value.__doc__))
-        try:
-            choice = input("\nAction: ").lower().strip()
-            if choice.lower() != "q":
-                clear()
-                raise ValueError("Please choose a valid option")
-            elif choice in menu:
-                menu[choice]()
-        except ValueError:
-            print("\nPlease choose a valid option, or enter 'q' to quit.")
-
 menu = OrderedDict([
-    ("v", view_product),
-    ("a", add_product),
-    ("b", save_inventory),
+    ("v", view_product()),
+    ("a", add_product()),
+    ("b", save_inventory()),
 ])
 
 if __name__ == "__main__":
     initialize()
     add_csv()
-    menu()
+    menu_loop()
