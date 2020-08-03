@@ -29,16 +29,12 @@ def clear():
 def menu_loop():
     choice = None
     while choice != "q":
-        clear()
         print("Enter 'q' to quit.\n")
         for key, value in menu.items():
             print("{}) {}".format(key, value.__doc__))
         try:
             choice = input("\nAction: ").lower().strip()
-            if choice.lower() != "q":
-                clear()
-                raise ValueError("Please choose a valid option")
-            elif choice in menu:
+            if choice in menu:
                 menu[choice]()
         except ValueError:
             print("\nPlease choose a valid option, or enter 'q' to quit.")
@@ -84,7 +80,7 @@ def view_product():
             view_product()
         again = input("\n\nWould you like to view another product? [Yes/No]:  \n")
         if again.lower() != 'no':
-            view_product()
+            continue
         else:
             break
         clear()
@@ -139,9 +135,9 @@ def save_inventory():
         print("\nInventory is successfully backed up!\n")
 
 menu = OrderedDict([
-    ("v", view_product()),
-    ("a", add_product()),
-    ("b", save_inventory()),
+    ("v", view_product),
+    ("a", add_product),
+    ("b", save_inventory),
 ])
 
 if __name__ == "__main__":
