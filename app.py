@@ -4,6 +4,7 @@ import os
 import csv
 import sys
 from decimal import Decimal
+from playhouse.shortcuts import model_to_dict
 
 from peewee import *
 
@@ -122,16 +123,16 @@ def add_product():
 
 def save_inventory():
     """Make a backup of the entire contents."""
-    with open("backup.csv", "w", newline=" ") as file:
-        writer = csv.writer(file)
-        products = Product.select(
-            Product.product_name,
-            Product.product_price,
-            Product.product_quantity,
-            Product.date_update
-        )
-        writer.writerow(products.keys())
-        writer.writerows(products.tuples())
+    dicts = [model_to_dict(item) for item in Product.select().order_by(Product.product_id)]
+    with open("backup.csv", "a") as csvfile:
+        fieldnames = ['product_id',
+                      'product_name',
+                      'product_price',
+                      'product_quantity',
+                      'date_updated']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(dicts)
         print("\nInventory is successfully backed up!\n")
 
 menu = OrderedDict([
